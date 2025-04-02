@@ -7,6 +7,8 @@ import Signin  from './views/Signin/Signin';
 import Signup  from './views/Signup/Signup';
 import './style.css'
 import AppContext from './AppContext';
+import Admin from './views/Admin/Admin';
+import Access from './views/Admin/Access';
 
 
 
@@ -49,6 +51,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/admin" element={<Access><Admin /></Access>} />
       </Routes>
     </Router>
   </AppContext.Provider>;

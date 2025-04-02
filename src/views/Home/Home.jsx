@@ -7,5 +7,7 @@ export default function Home() {
         <Link to="/signin">Sign In</Link>
         <br/><br/>
         <Link to="/profile">Profile</Link>
+        <br /><br />
+        <Link to="/admin">Admin</Link>
     </>;
 }

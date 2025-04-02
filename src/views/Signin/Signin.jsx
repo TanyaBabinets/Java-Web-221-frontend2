@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
 import AppContext from '../../AppContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Signin() {
   const [email, setEmail] = useState("user2@i.ua");
   const [password, setPassword] = useState("123");
   const { setAccessToken, setUser, request } = useContext(AppContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const sendForm = () => {
     // rfc7617
@@ -24,9 +25,12 @@ export default function Signin() {
         // setAccessToken(data.accessToken);
         setAccessToken(data.jwtToken);
         console.log("JWT Token: ", data.jwtToken)
-        navigate('/profile');
+        //если есть токен то направляем на ту страницу откуда пришли,а то сразу идет переход на профиль
+        const from = location.state?.from || '/';
+        navigate(from);
+        // navigate('/profile');
         decodeJwt(data.jwtToken);
-      }else{
+      } else {
         console.log("Ошибка на сервере, не пришел токен", data);
       }
     })
@@ -35,7 +39,7 @@ export default function Signin() {
       });
   };
   const decodeJwt = (token) => {
-    if (!token) { 
+    if (!token) {
       console.error("empty token");
       return null;
     }
@@ -58,22 +62,22 @@ export default function Signin() {
       return null;
     }
   };
- 
 
-    return <form>
-        <input 
-            type='email'
-            value={email} 
-            onChange={e => setEmail(e.target.value)}
-            placeholder="E-mail" />
-          <br/>
-          <input 
-            type='password'
-            value={password} 
-            onChange={e => setPassword(e.target.value)}
-            placeholder="*********" />
-          <br/>
-          <button type='button' onClick={sendForm}>Вхід</button>
-          
-    </form>;
+
+  return <form>
+    <input
+      type='email'
+      value={email}
+      onChange={e => setEmail(e.target.value)}
+      placeholder="E-mail" />
+    <br />
+    <input
+      type='password'
+      value={password}
+      onChange={e => setPassword(e.target.value)}
+      placeholder="*********" />
+    <br />
+    <button type='button' onClick={sendForm}>Вхід</button>
+
+  </form>;
 }
